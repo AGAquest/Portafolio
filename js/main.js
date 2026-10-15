@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const commands = {
         'help': 'Comandos disponibles: skills, education, clear',
         'skills': '=> Python, Django, AWS Cloud, Bases de Datos, Metodologías Ágiles.',
-        'education': '=> Estudiante Ingeniería en Informática (INACAP Valparaíso).',
+        'education': '=>Analista Programador (2026), Estudiante Ingeniería en Informática (INACAP Valparaíso).',
         'clear': '' 
     };
 
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addTaskBtn = document.getElementById('add-task-btn');
     const taskList = document.getElementById('task-list');
 
-    // La URL de tu API en Render
+    // La URL de API en Render
     const API_URL = 'https://django-api-gestion.onrender.com/api/tickets/';
 
     // 1. LEER los tickets desde la base de datos (GET)
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
             li.className = 'flex justify-between items-center bg-urban-dark border border-gray-800 p-2 text-sm';
             
             const span = document.createElement('span');
-            span.textContent = task.titulo; // Usamos el campo "titulo" de tu modelo Django
+            span.textContent = task.titulo; 
             span.className = 'text-gray-300';
 
             const deleteBtn = document.createElement('button');
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    // Estructura requerida por tu modelo TicketSoporte
+                    // Estructura requerida por modelo TicketSoporte
                     body: JSON.stringify({ 
                         titulo: titulo,
                         descripcion: 'Ticket generado desde el portafolio',
