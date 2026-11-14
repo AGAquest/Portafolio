@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alejandro González Veliz | Full Stack y Cloud</title>
+
+  <meta name="description" content="Portafolio de Alejandro González Veliz, estudiante de Ingeniería en Informática en INACAP Valparaíso. Desarrollo full stack con Python y Django, y arquitectura cloud en AWS.">
+  <meta name="theme-color" content="#0F0F11">
+
+  <!-- Open Graph: URLs absolutas, requeridas por LinkedIn y WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://agaquest.github.io/Portafolio/">
+  <meta property="og:title" content="Alejandro González Veliz | Full Stack y Cloud">
+  <meta property="og:description" content="Sistemas escalables con Python, Django y AWS. Desde Valparaíso.">
+  <meta property="og:image" content="https://agaquest.github.io/Portafolio/img/arquitectura-aws.png">
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%230F0F11'/%3E%3Cpath d='M14 20l14 12-14 12' fill='none' stroke='%2339FF14' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M32 46h18' stroke='%23B026FF' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Sprite del tag "Ese": trazos reutilizados con <use>. pathLength="1" normaliza su largo para la animación -->
+  <svg class="sr-only" aria-hidden="true" focusable="false">
+    <defs>
+      <path id="tag-E" pathLength="1" d="M112 52 C95 34 52 34 48 64 C45 88 70 98 90 100 C62 100 36 112 38 140 C40 172 92 178 122 158"/>
+      <path id="tag-s" pathLength="1" d="M182 96 C170 80 138 84 140 104 C142 124 184 120 184 144 C184 168 148 174 128 160"/>
+      <path id="tag-e" pathLength="1" d="M220 128 C250 130 280 122 284 104 C288 84 262 74 244 84 C220 98 214 140 236 160 C256 176 292 168 314 146"/>
+      <path id="tag-subrayado" pathLength="1" d="M40 236 C140 224 250 230 350 212 M334 200 L352 212 L336 226"/>
+      <path id="tag-chorreo-1" pathLength="1" d="M60 172 V208"/>
+      <path id="tag-chorreo-2" pathLength="1" d="M150 172 V192"/>
+      <path id="tag-chorreo-3" pathLength="1" d="M264 170 V206"/>
+
+      <filter id="pintura">
+        <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="ruido"/>
+        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="2.5"/>
+      </filter>
+      <filter id="spray-borde" x="-10%" y="-10%" width="120%" height="120%">
+        <feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4" result="ruido"/>
+        <feDisplacementMap in="SourceGraphic" in2="ruido" scale="5"/>
+      </filter>
+      <filter id="spray-niebla" x="-30%" y="-30%" width="160%" height="160%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="7" result="difuso"/>
+        <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="1" seed="9" result="grano"/>
+        <feColorMatrix in="grano" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -2.4 1.7" result="motas"/>
+        <feComposite in="difuso" in2="motas" operator="in"/>
+      </filter>
+
+    </defs>
+  </svg>
+
+  <a class="saltar" href="#contenido">Saltar al contenido</a>
+
+  <header class="nav">
+    <div class="contenedor nav__fila">
+      <a class="nav__marca" href="#inicio" aria-label="Volver al inicio">AGV<span class="cursor" aria-hidden="true">_</span></a>
+      <nav aria-label="Principal">
+        <ul class="nav__links">
+          <li><a href="#sobre-mi"    data-acento="verde">/sobre-mi</a></li>
+          <li><a href="#proyectos"   data-acento="azul">/proyectos</a></li>
+          <li><a href="#laboratorio" data-acento="morado">/laboratorio</a></li>
+          <li><a href="#contacto"    data-acento="amarillo">/contacto</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido">
+
+    <section id="inicio" class="hero" aria-labelledby="hero-titulo">
+      <div class="muro">
+        <!-- El orden de las planchas deja el tag morado sobre verde y amarillo -->
+        <div class="muro__planchas" aria-hidden="true">
+          <span class="plancha plancha--azul"></span>
+          <span class="plancha plancha--morado"></span>
+          <span class="plancha plancha--verde"></span>
+          <span class="plancha plancha--amarillo"></span>
+        </div>
+
+        <!-- Capas por trazo: niebla, trazo y núcleo. --i define el orden de dibujo (ver style.css) -->
+        <svg class="tag" viewBox="20 25 350 230" aria-hidden="true">
+          <g class="tag__niebla" filter="url(#spray-niebla)">
+            <use href="#tag-E" style="--i:0"/><use href="#tag-s" style="--i:1"/><use href="#tag-e" style="--i:2"/>
+            <use href="#tag-subrayado" style="--i:3"/>
+          </g>
+          <g class="tag__trazo" filter="url(#spray-borde)">
+            <use href="#tag-E" style="--i:0"/><use href="#tag-s" style="--i:1"/><use href="#tag-e" style="--i:2"/>
+            <use href="#tag-subrayado" style="--i:3"/>
+          </g>
+          <g class="tag__nucleo">
+            <use href="#tag-E" style="--i:0"/><use href="#tag-s" style="--i:1"/><use href="#tag-e" style="--i:2"/>
+          </g>
+          <g class="tag__chorreo" filter="url(#spray-borde)">
+            <use href="#tag-chorreo-1" style="--i:0"/><use href="#tag-chorreo-2" style="--i:1"/><use href="#tag-chorreo-3" style="--i:2"/>
+          </g>
+        </svg>
+
+        <div class="contenedor muro__contenido">
+          <h1 id="hero-titulo" class="hero__nombre">
+            <span>Alejandro</span>
+            <span>González Veliz</span>
+          </h1>
+          <p class="hero__rol"><span class="hero__prompt" aria-hidden="true">&gt;</span> Arquitectura Cloud &amp; Desarrollo Full Stack</p>
+        </div>
+      </div>
+
+      <div class="contenedor hero__intro">
+        <p class="hero__bajada">
+          Ingeniero en formación, enfocado en crear sistemas escalables y eficientes.
+          Fusiono la lógica algorítmica con metodologías ágiles para resolver desafíos reales,
+          desde la planificación hasta el despliegue.
+        </p>
+        <div class="hero__acciones">
+          <a class="boton boton--primario" href="mailto:alejandro.aquest@gmail.com">[ Contactar ]</a>
+          <a class="boton" href="https://www.linkedin.com/in/alejandro-gonzalez-veliz-2647b3326/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="boton" href="https://github.com/AGAquest" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="sobre-mi" class="seccion" data-acento="verde" aria-labelledby="sobre-mi-titulo">
+      <div class="contenedor sobre">
+        <div class="sobre__texto">
+          <h2 id="sobre-mi-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /sobre_mi</h2>
+          <p>
+            Soy <strong>Anlista Programador y estuidiante de Ingeniería en Informática en INACAP Valparaíso</strong>,
+            con foco en <span class="resalte">arquitectura cloud, desarrollo full stack y gestión de bases de datos</span>.
+          </p>
+          <p>
+            Lo que más me mueve es desarrollar software que escale y sea eficiente, con herramientas como
+            <strong>Python, React, Node.js y DHTML</strong>. Busco aportar soluciones que respondan a desafíos reales
+            y llevar cada iniciativa desde su planificación hasta la implementación.
+          </p>
+          <p>
+            Más allá del código, destaco por mi enfoque analítico y mi atención al detalle. Como
+            <strong>delegado estudiantil</strong> desarrollé liderazgo, comunicación clara y coordinación
+            de equipos, y creo firmemente en las metodologías ágiles para elevar la calidad de cada proyecto.
+          </p>
+        </div>
+
+        <aside class="ficha" aria-label="Fortalezas y datos">
+          <h3 class="ficha__titulo">_sys.status // fortalezas</h3>
+          <dl class="ficha__datos">
+            <div><dt>Estudios</dt><dd>Ing. Informática · INACAP</dd></div>
+            <div><dt>Certificación</dt><dd>AWS Cloud Foundations</dd></div>
+            <div><dt>Liderazgo</dt><dd>Delegado estudiantil 3 años</dd></div>
+            <div><dt>Perfil</dt><dd>Analítico &amp; Organizado</dd></div>
+            <div><dt>Mentalidad</dt><dd>Confiable &amp; Responsable</dd></div>
+            <div class="ficha__corte"><dt>Idioma_ES</dt><dd>Nativo</dd></div>
+            <div><dt>Idioma_EN</dt><dd>Intermedio</dd></div>
+          </dl>
+          <h3 class="ficha__titulo">_skills</h3>
+          <ul class="chapas">
+            <li>Python</li><li>React</li><li>Node.js</li><li>DHTML</li>
+            <li>SQL</li><li>AWS EC2</li><li>AWS RDS</li><li>VPC</li><li>Git</li><li>Scrum</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <section id="proyectos" class="seccion seccion--alterna" data-acento="azul" aria-labelledby="proyectos-titulo">
+      <div class="contenedor">
+        <div class="seccion__cabecera">
+          <h2 id="proyectos-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">/</span> proyectos_destacados</h2>
+          <a class="enlace" href="https://github.com/AGAquest?tab=repositories" target="_blank" rel="noopener">[ Ver todo en GitHub ]</a>
+        </div>
+
+        <div class="tarjetas">
+
+          <article class="tarjeta" data-acento="verde">
+            <div class="tarjeta__cabeza">
+              <span class="tarjeta__tipo">api/rest</span>
+              <a class="tarjeta__icono" href="https://github.com/AGAquest/django-api-gestion" target="_blank" rel="noopener" aria-label="Código de la API de tickets en GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </div>
+            <h3 class="tarjeta__titulo">API de tickets de soporte</h3>
+            <p>
+              API REST para registrar y seguir tickets de soporte con tres estados:
+              pendiente, en proceso y resuelto. El CRUD completo sale de un ViewSet de Django REST Framework.
+            </p>
+            <ul class="tarjeta__puntos">
+              <li>Modelo <code>TicketSoporte</code> con estado y fecha de creación</li>
+              <li>Endpoints en <code>/api/tickets/</code> con el router de DRF</li>
+              <li>Configuración por variables de entorno, lista para Gunicorn</li>
+            </ul>
+            <ul class="chapas" aria-label="Tecnologías">
+              <li>Python</li><li>React</li><li>Node.js</li><li>DHTML</li>
+            </ul>
+            <div class="tarjeta__links">
+              <a class="enlace" href="https://github.com/AGAquest/django-api-gestion" target="_blank" rel="noopener">Ver código</a>
+              <a class="enlace" href="#laboratorio">Probar la demo</a>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-acento="azul">
+            <div class="tarjeta__cabeza">
+              <span class="tarjeta__tipo">cloud/aws</span>
+              <a class="tarjeta__icono" href="https://github.com/AGAquest/aws-infra-demo" target="_blank" rel="noopener" aria-label="Código de la infraestructura AWS en GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </div>
+            <h3 class="tarjeta__titulo">Infraestructura en AWS</h3>
+            <!-- <button> y no <a>: abre el diagrama en un <dialog>, no navega -->
+            <button class="tarjeta__diagrama" type="button" data-abrir-diagrama aria-label="Ampliar el diagrama de arquitectura AWS">
+              <img src="img/arquitectura-aws.png" alt="Diagrama: VPC 10.0.0.0/16 en us-east-1a con subred pública para el servidor EC2 y subred privada para la base de datos" loading="lazy" width="619" height="549">
+            </button>
+            <p>
+              Una VPC con subred pública para el servidor y subred privada para la base de datos,
+              de modo que los datos nunca quedan expuestos a internet.
+            </p>
+            <ul class="chapas" aria-label="Tecnologías">
+              <li>VPC</li><li>EC2</li><li>RDS</li><li>CloudFormation</li>
+            </ul>
+            <div class="tarjeta__links">
+              <a class="enlace" href="https://github.com/AGAquest/aws-infra-demo" target="_blank" rel="noopener">Ver código</a>
+              <button class="enlace" type="button" data-abrir-diagrama>Ver diagrama</button>
+            </div>
+          </article>
+
+          <article class="tarjeta" data-acento="amarillo">
+            <div class="tarjeta__cabeza">
+              <span class="tarjeta__tipo">mvp/basic</span>
+              <a class="tarjeta__icono" href="https://agaquest.github.io/mvp-cowork/" target="_blank" rel="noopener" aria-label="Código de CoWork INACAP en GitHub">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+              </a>
+            </div>
+            <h3 class="tarjeta__titulo">CoWork</h3>
+            <p>
+              MVP de reservas de espacios para una feria de emprendimiento.
+            </p>
+            <ul class="tarjeta__puntos">
+              <li>Reserva de mesa compartida, sala de reuniones o stand</li>
+              <li>Las reservas quedan guardadas en el navegador con localStorage</li>
+            </ul>
+            <ul class="chapas" aria-label="Tecnologías">
+              <li>JavaScript</li><li>Tailwind</li><li>Agile</li>
+            </ul>
+            <div class="tarjeta__links">
+              <a class="enlace" href="https://github.com/AGAquest/mvp-cowork" target="_blank" rel="noopener">Ver código</a>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section id="laboratorio" class="seccion" data-acento="morado" aria-labelledby="laboratorio-titulo">
+      <div class="contenedor">
+        <div class="seccion__cabecera">
+          <h2 id="laboratorio-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">#</span> el_laboratorio</h2>
+          <p class="seccion__nota">Dos demos que funcionan aquí mismo. Tócalas.</p>
+        </div>
+
+        <div class="lab">
+          <div class="panel">
+            <div class="panel__barra">
+              <span class="punto punto--rojo"></span><span class="punto punto--amarillo"></span><span class="punto punto--verde"></span>
+              <span class="panel__nombre">agv_terminal ~ zsh</span>
+            </div>
+            <div id="terminal-salida" class="terminal__salida" role="log" aria-live="polite">
+              <p class="t-ok">Escribe 'ayuda' (o 'help') para ver los comandos disponibles.</p>
+            </div>
+            <form class="terminal__entrada" id="terminal-form" autocomplete="off">
+              <label for="terminal-input" class="terminal__prompt"><span class="t-flecha">➜</span> <span class="t-ruta">~</span></label>
+              <input type="text" id="terminal-input" spellcheck="false" aria-label="Comando de terminal">
+            </form>
+          </div>
+
+          <div class="panel">
+            <div class="panel__barra">
+              <span class="punto punto--rojo"></span><span class="punto punto--amarillo"></span><span class="punto punto--verde"></span>
+              <span class="panel__nombre">&gt; demo_crud_api · /api/tickets/</span>
+            </div>
+            <form id="ticket-form" class="api__form" novalidate>
+              <label for="ticket-input" class="sr-only">Título del ticket</label>
+              <input type="text" id="ticket-input" placeholder="Ej: No carga el login" maxlength="150">
+              <button type="submit" class="boton boton--morado boton--chico">POST</button>
+            </form>
+            <p id="api-respuesta" class="api__respuesta" aria-live="polite">Esperando una petición.</p>
+            <ul id="ticket-lista" class="api__lista"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" class="seccion contacto" data-acento="amarillo" aria-labelledby="contacto-titulo">
+      <div class="contenedor">
+        <h2 id="contacto-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /contacto</h2>
+        <p class="contacto__grande">¿Conversamos?</p>
+        <p class="contacto__texto">Busco oportunidades para aportar en desarrollo y cloud. Por correo respondo rápido.</p>
+        <a class="contacto__correo" href="mailto:alejandro.aquest@gmail.com">alejandro.aquest@gmail.com</a>
+        <ul class="contacto__redes">
+          <li><a class="enlace" href="https://www.linkedin.com/in/alejandro-gonzalez-veliz-2647b3326/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a class="enlace" href="https://github.com/AGAquest" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie__fila">
+      <p>© <span id="anio">2026</span> Alejandro González Veliz · aka Ese</p>
+      <p><a class="enlace enlace--suave" href="https://github.com/AGAquest/Portafolio" target="_blank" rel="noopener">Código de este sitio</a></p>
+    </div>
+  </footer>
+
+  <dialog id="dialogo-diagrama" class="dialogo" aria-labelledby="dialogo-titulo">
+    <div class="dialogo__cabecera">
+      <h2 id="dialogo-titulo">arquitectura_aws</h2>
+      <button type="button" class="dialogo__cerrar" data-cerrar-dialogo aria-label="Cerrar">✕</button>
+    </div>
+    <img src="img/arquitectura-aws.png" alt="Diagrama de arquitectura: VPC 10.0.0.0/16, zona us-east-1a, subred pública 10.0.1.0/24 con servidor EC2 y gateway, subred privada 10.0.2.0/24 con la base de datos">
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
