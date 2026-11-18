@@ -310,18 +310,23 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
 .letrero__placa::before { left: calc(5% - 4px); }
 .letrero__placa::after  { right: calc(5% - 4px); }
 
-.letrero__neon { position: relative; aspect-ratio: 1000 / 658; }
-.neon__capa {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
+.letrero__neon { aspect-ratio: 1100 / 720; }
+.neon { display: block; width: 100%; height: 100%; overflow: visible; }
+.neon use { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.neon__apagado use { stroke: #2B2633; stroke-width: 9; }      /* tubo de vidrio sin corriente */
+.neon__relleno { fill: #7C1CFF !important; fill-rule: evenodd; opacity: .22; filter: url(#neon-difuso); }
+.neon__halo    { stroke: #7C1CFF; stroke-width: 42; opacity: .6; filter: url(#neon-difuso); }
+.neon__tubo    { stroke: #9D4DFF; stroke-width: 15; filter: url(#neon-suave); }
+.neon__nucleo  { stroke: #F7EEFF; stroke-width: 4.5; }
+
+.neon__letra {
   opacity: 0;
   animation: neon-encendido linear infinite both;
 }
-.neon__capa--apagado { opacity: 1; animation: none; }
-.neon__capa--1 { animation-duration: 11s;   animation-delay: .5s; }
-.neon__capa--2 { animation-duration: 13.5s; animation-delay: 1.6s; }
-.neon__capa--3 { animation-duration: 9.5s;  animation-delay: .9s; }
-.neon__capa--4 { animation-duration: 15s;   animation-delay: 2.3s; }
+.neon__letra--1 { animation-duration: 11s;   animation-delay: .5s; }
+.neon__letra--2 { animation-duration: 13.5s; animation-delay: 1.6s; }
+.neon__letra--3 { animation-duration: 9.5s;  animation-delay: .9s; }
+.neon__letra--4 { animation-duration: 15s;   animation-delay: 2.3s; }
 
 @keyframes neon-encendido {
   0%         { opacity: 0; }
@@ -626,5 +631,5 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .neon__capa { opacity: 1; } /* letrero encendido y quieto */
+  .neon__letra { opacity: 1; } /* letrero encendido y quieto */
 }
