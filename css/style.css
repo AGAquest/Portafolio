@@ -200,7 +200,7 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
 .plancha--verde    { --color: #145A2E; }
 .plancha--amarillo { --color: #7A5C0A; border-right: 0; }
 
-/* Apilamiento: planchas 0, tag 1, luz y scanlines 2, franja y contenido 3 */
+/* Apilamiento: planchas 0, letrero 1, luz y scanlines 2, franja y contenido 3 */
 .muro::after {
   content: "";
   position: absolute; inset: 0;
@@ -254,43 +254,98 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
 .hero__bajada { max-width: 60ch; margin: 0; font-size: 1.15rem; line-height: 1.6; color: var(--texto-suave); }
 .hero__acciones { display: flex; gap: .75rem; flex-wrap: wrap; }
 
-/* Tag "Ese". Ciclo de 10 s: trazo (0–9 %), visible (9–80 %), desvanecido (80–92 %).
-   --i (en el HTML) define el orden de cada trazo. */
-.tag {
+/* Letrero colgante "Ese". El colgante (hilo + placa) oscila desde el clavo.
+   Cada letra tiene duración y retraso distintos: los ciclos se desfasan y el encendido es asíncrono. */
+.letrero {
   position: absolute;
   z-index: 1;
-  right: clamp(.5rem, 3vw, 3rem);
-  top: 50%;
-  width: min(30vw, 25rem);
-  transform: translateY(-46%) rotate(-7deg);
+  top: 0;
+  right: clamp(1rem, 4vw, 4.5rem);
+  width: min(18vw, 17rem);
+}
+.letrero__clavo {
+  position: absolute; top: 14px; left: 50%;
+  width: 12px; height: 12px; margin-left: -6px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #C9C9D1, #4A4A52 70%);
+  box-shadow: 0 2px 3px rgb(0 0 0 / .6);
+  z-index: 2;
+}
+.letrero__colgante {
+  padding-top: 20px;                     /* centro del clavo: pivote del balanceo */
+  transform-origin: 50% 20px;
+  animation: balanceo 7s ease-in-out infinite alternate;
+}
+.letrero__hilo {
+  display: block;
+  width: 100%; height: clamp(2rem, 4vw, 3.25rem);
   overflow: visible;
 }
-
-.tag use {
+.letrero__hilo path {
   fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-
-  /* Requiere pathLength="1" en los trazos. Offset 1.05 y no 1: con linecap round,
-     un guion de largo cero dejaría un punto visible. */
-  stroke-dasharray: 1 2;
-  stroke-dashoffset: 1.05;
-  animation: tag-spray 10s cubic-bezier(.5, 0, .3, 1) infinite both;
-  animation-delay: calc(var(--i) * .7s + var(--extra, 0s));
+  stroke: #A1A1AA;
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;     /* grosor constante aunque el SVG se estire */
 }
-.tag__niebla { stroke: var(--morado); stroke-width: 34; opacity: .5; --extra: .08s; }
-.tag__trazo  { stroke: var(--morado); stroke-width: 15; }
-.tag__nucleo { stroke: #E2B8FF; stroke-width: 4; opacity: .7; --extra: .12s; }
+.letrero__placa {
+  position: relative;
+  padding: 4% 5%;
+  background: #050507;
+  border: 1px solid #26262C;
+  border-radius: 10px;
+  box-shadow:
+    inset 0 0 0 4px #0B0B0E,
+    0 22px 40px -12px rgb(0 0 0 / .8),
+    0 0 60px rgb(176 38 255 / .22);       /* luz del neón sobre el muro */
+}
+/* Argollas donde se amarra el hilo */
+.letrero__placa::before,
+.letrero__placa::after {
+  content: "";
+  position: absolute; top: -5px;
+  width: 9px; height: 9px;
+  border: 2px solid #A1A1AA; border-radius: 50%;
+  background: #050507;
+}
+.letrero__placa::before { left: calc(5% - 4px); }
+.letrero__placa::after  { right: calc(5% - 4px); }
 
-.tag__trazo  use[href="#tag-subrayado"] { stroke-width: 9; }
-.tag__niebla use[href="#tag-subrayado"] { stroke-width: 22; }
+.letrero__neon { position: relative; aspect-ratio: 1000 / 658; }
+.neon__capa {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+  animation: neon-encendido linear infinite both;
+}
+.neon__capa--apagado { opacity: 1; animation: none; }
+.neon__capa--1 { animation-duration: 11s;   animation-delay: .5s; }
+.neon__capa--2 { animation-duration: 13.5s; animation-delay: 1.6s; }
+.neon__capa--3 { animation-duration: 9.5s;  animation-delay: .9s; }
+.neon__capa--4 { animation-duration: 15s;   animation-delay: 2.3s; }
 
-.tag__chorreo { stroke: var(--morado); stroke-width: 6; }
-.tag__chorreo use { animation-timing-function: ease-in; animation-delay: calc(var(--i) * .25s + 2s); }
-
-@keyframes tag-spray {
-  0%        { stroke-dashoffset: 1.05; opacity: 1; }
-  9%, 80%   { stroke-dashoffset: 0;    opacity: 1; }
+@keyframes neon-encendido {
+  0%         { opacity: 0; }
+  2%         { opacity: .9; }
+  3%         { opacity: .15; }
+  4.5%       { opacity: 1; }
+  5.5%       { opacity: .4; }
+  7%, 80%    { opacity: 1; }
+  81%        { opacity: .3; }
+  82%, 92%   { opacity: 1; }
+  95%, 100%  { opacity: 0; }
+}
+@keyframes balanceo {
+  from { transform: rotate(-1.8deg); }
+  to   { transform: rotate(1.8deg); }
+}
+  1.6%      { opacity: .1; }
+  2.4%      { opacity: 1; }
+  3%        { opacity: .35; }
+  4.5%, 85% { opacity: 1; }
+  86%       { opacity: .25; }
+  86.6%, 92%{ opacity: 1; }
+  94%, 100% { opacity: 0; }
+}
   92%       { stroke-dashoffset: 0;    opacity: 0; }
   100%      { stroke-dashoffset: 1.05; opacity: 0; }
 }
@@ -555,11 +610,11 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
   .nav__links { gap: 1rem; white-space: nowrap; }
   html { scroll-padding-top: 6.5rem; }
 
-  .tag { position: relative; right: auto; top: auto; display: block; width: 70%; margin: 2rem 0 -1.5rem 1rem; transform: rotate(-7deg); }
+  .letrero { position: relative; right: auto; width: 55%; margin: 0 auto -1rem; }
   .muro__contenido { padding-top: 1.5rem; }
   .muro__planchas { grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; }
 
-  /* En 2×2 el tag queda arriba: verde y amarillo suben para mantener el contraste */
+  /* En 2×2 el letrero queda arriba: verde y amarillo suben para mantener el contraste */
   .plancha--verde, .plancha--amarillo { order: -1; }
   .hero__intro { grid-template-columns: 1fr; }
 
@@ -571,5 +626,5 @@ code { font-family: var(--f-mono); font-size: .86em; color: var(--texto); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .tag use { stroke-dashoffset: 0; } /* tag visible y completo */
+  .neon__capa { opacity: 1; } /* letrero encendido y quieto */
 }
