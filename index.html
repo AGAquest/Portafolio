@@ -124,9 +124,15 @@
     </section>
 
     <section id="sobre-mi" class="seccion" data-acento="verde" aria-labelledby="sobre-mi-titulo">
-      <div class="contenedor sobre">
+      <div class="contenedor">
+        <header class="seccion__cabecera">
+          <div>
+            <h2 id="sobre-mi-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /sobre_mi</h2>
+            <p class="seccion__nota">Perfil, formación y herramientas con las que trabajo.</p>
+          </div>
+        </header>
+        <div class="sobre">
         <div class="sobre__texto">
-          <h2 id="sobre-mi-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /sobre_mi</h2>
           <p>
             Soy <strong>Analista Programador y estudiante de Ingeniería en Informática en INACAP Valparaíso</strong>,
             con foco en <span class="resalte">arquitectura cloud, desarrollo full stack y gestión de bases de datos</span>.
@@ -160,15 +166,19 @@
             <li>SQL</li><li>AWS EC2</li><li>AWS RDS</li><li>VPC</li><li>Git</li><li>Scrum</li>
           </ul>
         </aside>
+        </div>
       </div>
     </section>
 
     <section id="proyectos" class="seccion seccion--alterna" data-acento="azul" aria-labelledby="proyectos-titulo">
       <div class="contenedor">
-        <div class="seccion__cabecera">
-          <h2 id="proyectos-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">/</span> proyectos_destacados</h2>
+        <header class="seccion__cabecera">
+          <div>
+            <h2 id="proyectos-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">/</span> proyectos_destacados</h2>
+            <p class="seccion__nota">Trabajos recientes, cada uno con su repositorio.</p>
+          </div>
           <a class="enlace" href="https://github.com/AGAquest?tab=repositories" target="_blank" rel="noopener">[ Ver todo en GitHub ]</a>
-        </div>
+        </header>
 
         <div class="tarjetas">
 
@@ -252,10 +262,12 @@
 
     <section id="laboratorio" class="seccion" data-acento="morado" aria-labelledby="laboratorio-titulo">
       <div class="contenedor">
-        <div class="seccion__cabecera">
-          <h2 id="laboratorio-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">#</span> el_laboratorio</h2>
-          <p class="seccion__nota">Dos demos que funcionan aquí mismo. Tócalas.</p>
-        </div>
+        <header class="seccion__cabecera">
+          <div>
+            <h2 id="laboratorio-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">#</span> el_laboratorio</h2>
+            <p class="seccion__nota">Dos demos que funcionan en el navegador, sin servidor.</p>
+          </div>
+        </header>
 
         <div class="lab">
           <div class="panel">
@@ -289,24 +301,60 @@
       </div>
     </section>
 
-    <section id="contacto" class="seccion contacto" data-acento="amarillo" aria-labelledby="contacto-titulo">
+    <section id="contacto" class="seccion seccion--alterna contacto" data-acento="amarillo" aria-labelledby="contacto-titulo">
       <div class="contenedor">
-        <h2 id="contacto-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /contacto</h2>
-        <p class="contacto__grande">¿Conversamos?</p>
-        <p class="contacto__texto">Busco oportunidades para aportar en desarrollo y cloud. Por correo respondo rápido.</p>
-        <a class="contacto__correo" href="mailto:alejandro.aquest@gmail.com">alejandro.aquest@gmail.com</a>
-        <ul class="contacto__redes">
-          <li><a class="enlace" href="https://www.linkedin.com/in/alejandro-gonzalez-veliz-2647b3326/" target="_blank" rel="noopener">LinkedIn</a></li>
-          <li><a class="enlace" href="https://github.com/AGAquest" target="_blank" rel="noopener">GitHub</a></li>
-        </ul>
+        <header class="seccion__cabecera">
+          <div>
+            <h2 id="contacto-titulo" class="titulo"><span class="titulo__prompt" aria-hidden="true">&gt;</span> /contacto</h2>
+            <p class="seccion__nota">Disponible para prácticas, proyectos y oportunidades laborales.</p>
+          </div>
+        </header>
+        <div class="contacto__grilla">
+          <div>
+            <p class="contacto__grande">¿Conversamos?</p>
+            <p class="contacto__texto">Busco oportunidades para aportar en desarrollo y cloud. Por correo respondo rápido.</p>
+          </div>
+          <div class="contacto__tarjeta">
+            <p class="contacto__etiqueta">Correo</p>
+            <a class="contacto__correo" href="mailto:alejandro.aquest@gmail.com">alejandro.aquest@gmail.com</a>
+            <ul class="contacto__redes">
+              <li><a class="boton" href="https://www.linkedin.com/in/alejandro-gonzalez-veliz-2647b3326/" target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a class="boton" href="https://github.com/AGAquest" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="pie">
-    <div class="contenedor pie__fila">
-      <p>© <span id="anio">2026</span> Alejandro González Veliz · aka Ese</p>
-      <p><a class="enlace enlace--suave" href="https://github.com/AGAquest/Portafolio" target="_blank" rel="noopener">Código de este sitio</a></p>
+    <div class="contenedor pie__grilla">
+      <div class="pie__marca">
+        <p class="pie__nombre">Alejandro González Veliz</p>
+        <p>Analista Programador · Full Stack &amp; Cloud</p>
+        <p>Valparaíso, Chile</p>
+      </div>
+      <nav class="pie__columna" aria-label="Secciones">
+        <h2 class="pie__titulo">Secciones</h2>
+        <ul>
+          <li><a href="#sobre-mi">Sobre mí</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#laboratorio">Laboratorio</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </nav>
+      <div class="pie__columna">
+        <h2 class="pie__titulo">Contacto</h2>
+        <ul>
+          <li><a href="mailto:alejandro.aquest@gmail.com">alejandro.aquest@gmail.com</a></li>
+          <li><a href="https://www.linkedin.com/in/alejandro-gonzalez-veliz-2647b3326/" target="_blank" rel="noopener">LinkedIn</a></li>
+          <li><a href="https://github.com/AGAquest" target="_blank" rel="noopener">GitHub</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="contenedor pie__base">
+      <p>© <span id="anio">2026</span> Alejandro González Veliz. Todos los derechos reservados.</p>
+      <p><a href="https://github.com/AGAquest/Portafolio" target="_blank" rel="noopener">Código fuente del sitio</a></p>
     </div>
   </footer>
 
