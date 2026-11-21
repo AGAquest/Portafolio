@@ -154,8 +154,8 @@ function iniciarTerminal() {
 
 /* 5. API DE TICKETS ===================================================== */
 
-// Simula en el navegador el TicketViewSet de django-api-gestion: mismos campos,
-// estados y códigos HTTP (POST 201, PATCH 200, DELETE 204, 400 sin título).
+// Cliente del TicketViewSet de django-api-gestion desplegado en Render.
+// Usa la API real (GET, POST 201, PATCH 200, DELETE 204).
 function iniciarApiTickets() {
   const form = document.getElementById('ticket-form');
   const input = document.getElementById('ticket-input');
@@ -163,14 +163,13 @@ function iniciarApiTickets() {
   const respuesta = document.getElementById('api-respuesta');
   if (!form || !input || !lista || !respuesta) return;
 
-  const CLAVE = 'agv_tickets';
+  const API = 'https://django-api-gestion.onrender.com/api/tickets/';
   const ESTADOS = ['PENDIENTE', 'EN_PROCESO', 'RESUELTO'];
   const ETIQUETAS = { PENDIENTE: 'Pendiente', EN_PROCESO: 'En proceso', RESUELTO: 'Resuelto' };
+  const boton = form.querySelector('button[type="submit"]');
 
-  let tickets = almacen.leer(CLAVE, [
-    { id: 2, titulo: 'Migrar base de datos a AWS RDS', estado: 'EN_PROCESO', fecha_creacion: '2026-03-02T10:00:00Z' },
-    { id: 1, titulo: 'Refactorizar vistas en Django', estado: 'RESUELTO', fecha_creacion: '2026-03-01T10:00:00Z' }
-  ]);
+  let tickets = [];
+  let ocupado = false;
 
   function responder(metodo, ruta, codigo, tipo) {
     respuesta.dataset.tipo = tipo;
@@ -180,9 +179,28 @@ function iniciarApiTickets() {
     respuesta.append(b, `  ${codigo}`);
   }
 
-  function guardarYRender() {
-    almacen.guardar(CLAVE, tickets);
-    render();
+  // El plan gratis de Render duerme el servicio: la primera petición puede tardar ~50 s.
+  async function pedir(metodo, ruta, cuerpo) {
+    const aviso = setTimeout(() => {
+      responder(metodo, ruta, 'despertando el servidor en Render (puede tardar ~50 s)…', 'info');
+    }, 2500);
+    try {
+      const res = await fetch(API + ruta, {
+        method: metodo,
+        headers: cuerpo ? { 'Content-Type': 'application/json' } : undefined,
+        body: cuerpo ? JSON.stringify(cuerpo) : undefined
+      });
+      const datos = res.status === 204 ? null : await res.json().catch(() => null);
+      return { res, datos };
+    } finally {
+      clearTimeout(aviso);
+    }
+  }
+
+  function setOcupado(valor) {
+    ocupado = valor;
+    if (boton) boton.disabled = valor;
+    lista.querySelectorAll('button').forEach(b => { b.disabled = valor || b.dataset.fijo === 'true'; });
   }
 
   function render() {
@@ -206,7 +224,7 @@ function iniciarApiTickets() {
       const estado = document.createElement('span');
       estado.className = 'ticket__estado';
       estado.dataset.estado = t.estado;
-      estado.textContent = ETIQUETAS[t.estado];
+      estado.textContent = ETIQUETAS[t.estado] || t.estado;
 
       const acciones = document.createElement('div');
       acciones.className = 'ticket__acciones';
@@ -214,13 +232,15 @@ function iniciarApiTickets() {
       const avanzar = document.createElement('button');
       avanzar.type = 'button';
       avanzar.textContent = 'Avanzar';
-      avanzar.disabled = t.estado === 'RESUELTO';
+      avanzar.dataset.fijo = String(t.estado === 'RESUELTO');
+      avanzar.disabled = ocupado || t.estado === 'RESUELTO';
       avanzar.setAttribute('aria-label', `Avanzar estado de "${t.titulo}"`);
       avanzar.addEventListener('click', () => avanzarEstado(t.id));
 
       const borrar = document.createElement('button');
       borrar.type = 'button';
       borrar.textContent = 'Eliminar';
+      borrar.disabled = ocupado;
       borrar.setAttribute('aria-label', `Eliminar "${t.titulo}"`);
       borrar.addEventListener('click', () => eliminar(t.id));
 
@@ -230,9 +250,33 @@ function iniciarApiTickets() {
     });
   }
 
+  function error(metodo, ruta, res, datos) {
+    const detalle = datos && typeof datos === 'object'
+      ? Object.entries(datos).map(([k, v]) => `${k}: ${[].concat(v).join(' ')}`).join(' · ')
+      : '';
+    responder(metodo, ruta, res ? `${res.status} ${res.statusText} ${detalle}`.trim() : 'sin conexión con el servidor', 'error');
+  }
+
+  // GET /api/tickets/
+  async function cargar() {
+    setOcupado(true);
+    try {
+      const { res, datos } = await pedir('GET', '');
+      if (!res.ok) return error('GET', '/api/tickets/', res, datos);
+      tickets = Array.isArray(datos) ? datos : (datos?.results || []);
+      responder('GET', '/api/tickets/', `${res.status} OK  ${tickets.length} ticket(s)`, 'ok');
+    } catch {
+      error('GET', '/api/tickets/');
+    } finally {
+      setOcupado(false);
+      render();
+    }
+  }
+
   // POST /api/tickets/
-  form.addEventListener('submit', e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault();
+    if (ocupado) return;
     const titulo = input.value.trim();
     if (!titulo) {
       input.setAttribute('aria-invalid', 'true');
@@ -241,34 +285,68 @@ function iniciarApiTickets() {
       return;
     }
     input.removeAttribute('aria-invalid');
-    const id = Math.max(0, ...tickets.map(t => t.id)) + 1;
-    tickets.unshift({ id, titulo, estado: 'PENDIENTE', fecha_creacion: new Date().toISOString() });
-    input.value = '';
-    responder('POST', '/api/tickets/', '201 Created', 'ok');
-    guardarYRender();
+    setOcupado(true);
+    try {
+      const { res, datos } = await pedir('POST', '', {
+        titulo,
+        descripcion: 'Creado desde el portafolio',
+        estado: 'PENDIENTE'
+      });
+      if (!res.ok) return error('POST', '/api/tickets/', res, datos);
+      tickets.unshift(datos);
+      input.value = '';
+      responder('POST', '/api/tickets/', `${res.status} Created  id=${datos.id}`, 'ok');
+    } catch {
+      error('POST', '/api/tickets/');
+    } finally {
+      setOcupado(false);
+      render();
+    }
   });
 
   input.addEventListener('input', () => input.removeAttribute('aria-invalid'));
 
   // PATCH /api/tickets/:id/  PENDIENTE → EN_PROCESO → RESUELTO
-  function avanzarEstado(id) {
+  async function avanzarEstado(id) {
     const ticket = tickets.find(t => t.id === id);
-    if (!ticket) return;
+    if (!ticket || ocupado) return;
     const siguiente = ESTADOS[ESTADOS.indexOf(ticket.estado) + 1];
     if (!siguiente) return;
-    ticket.estado = siguiente;
-    responder('PATCH', `/api/tickets/${id}/`, `200 OK  estado=${siguiente}`, 'ok');
-    guardarYRender();
+    const ruta = `/api/tickets/${id}/`;
+    setOcupado(true);
+    try {
+      const { res, datos } = await pedir('PATCH', `${id}/`, { estado: siguiente });
+      if (!res.ok) return error('PATCH', ruta, res, datos);
+      Object.assign(ticket, datos);
+      responder('PATCH', ruta, `${res.status} OK  estado=${ticket.estado}`, 'ok');
+    } catch {
+      error('PATCH', ruta);
+    } finally {
+      setOcupado(false);
+      render();
+    }
   }
 
   // DELETE /api/tickets/:id/
-  function eliminar(id) {
-    tickets = tickets.filter(t => t.id !== id);
-    responder('DELETE', `/api/tickets/${id}/`, '204 No Content', 'ok');
-    guardarYRender();
+  async function eliminar(id) {
+    if (ocupado) return;
+    const ruta = `/api/tickets/${id}/`;
+    setOcupado(true);
+    try {
+      const { res, datos } = await pedir('DELETE', `${id}/`);
+      if (!res.ok) return error('DELETE', ruta, res, datos);
+      tickets = tickets.filter(t => t.id !== id);
+      responder('DELETE', ruta, `${res.status} No Content`, 'ok');
+    } catch {
+      error('DELETE', ruta);
+    } finally {
+      setOcupado(false);
+      render();
+    }
   }
 
   render();
+  cargar();
 }
 
 /* 6. DIAGRAMA ============================================================ */
